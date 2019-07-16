@@ -1,0 +1,19 @@
+{
+  "name": "owdaw",
+  "version": "0.0.1",
+  "description": "Open Web Digital Audio Workstation",
+  "main": "src/index.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonychopin/owdaw.git"
+  },
+  "author": "Limbo Sounds",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antonychopin/owdaw/issues"
+  },
+  "homepage": "https://github.com/antonychopin/owdaw#readme"
+}
