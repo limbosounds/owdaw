@@ -3,6 +3,9 @@ import { Switch, Route } from "react-router-dom"
 
 import App from "./Application"
 
+import "declarations/Array"
+import "declarations/Audio"
+
 export interface ProviderProps {
 	
 }

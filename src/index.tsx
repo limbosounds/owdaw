@@ -4,6 +4,8 @@ import { BrowserRouter } from "react-router-dom"
 
 import Provider from "./Provider"
 
+import "ts-polyfill"
+
 ReactDOM.render(
 	<BrowserRouter>
 		<Provider />

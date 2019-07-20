@@ -13,7 +13,7 @@ The main target of this project is to recreate DAW (like Ableton, FL Studio, etc
 
 - [ ] Piano roll and ability to create note sequences
 - - [ ] Generating piano keyboard
-- - [ ] Keystroke note playback (keyboard-based piano)
+- - [x] Keystroke note playback (keyboard-based piano)
 - - [ ] Piano-roll interface, store and playback note sequences
 - - [ ] Note settings
 - - - [ ] Volume
@@ -30,3 +30,17 @@ The main target of this project is to recreate DAW (like Ableton, FL Studio, etc
 - [ ] Samplers
 - [ ] Audio clips
 - [ ] API for developing plugins
+
+## How to run
+1. Clone repository
+2. Install dependencies
+```
+npm install
+```
+3. Run devserver
+```
+npm run dev
+
+# or using yarn
+yarn dev
+```
