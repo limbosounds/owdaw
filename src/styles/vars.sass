@@ -1,0 +1,53 @@
+$colorDark1: #4d4646
+$colorDark2: #5b5656
+$colorAccent: #7fcd91
+$colorLight: #f5eaea
+
+$transition: cubic-bezier(.28,.1,.43,1)
+$tjelly: cubic-bezier(.55,.17,.39,1.21)
+
+=pos($position, $top: auto, $left: auto, $right: auto, $bottom: auto)
+	position: $position
+	top: $top
+	left: $left
+	right: $right
+	bottom: $bottom
+
+=placeholder
+	&::-webkit-input-placeholder
+		@content
+	&::-webkit-placeholder
+		@content
+	&::-ms-input-placeholder
+		@content
+	&::-moz-placeholder
+		@content
+	&::placeholder
+		@content
+
+=scrollbar($color: $colorAccent, $at: .38, $bt: .72)
+	&::-webkit-scrollbar
+		width: 8px
+		height: 8px
+	&::-webkit-scrollbar-track
+		background: rgba($color, $at)
+	&::-webkit-scrollbar-thumb
+		background: rgba($color, $bt)
+		&:hover
+			background: rgba($color, 1)
+
+=max($size)
+	@media (max-width: $size)
+		@content
+
+=tabletA
+	+max(1199px)
+		@content
+
+=tabletB
+	+max(899px)
+		@content
+
+=mobile
+	+max(749px)
+		@content

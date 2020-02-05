@@ -12,7 +12,8 @@
         "jsx": "react",
         "traceResolution": true,
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
+		"emitDecoratorMetadata": true,
+		"strictNullChecks": true,
 
         "allowJs": true,
         "declaration": false,

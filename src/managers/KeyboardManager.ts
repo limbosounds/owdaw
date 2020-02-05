@@ -91,7 +91,7 @@ class ODKeyboardManager {
 		document.removeEventListener("keyup", this.handleKeyUp)
 	}
 
-	findPlayingNote = (note: ODNote): ODNote => {
+	findPlayingNote = (note: ODNote) => {
 		return this.playingNotes.find(n => {
 			return n.octave == note.octave
 				&& n.sign == note.sign
