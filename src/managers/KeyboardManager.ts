@@ -1,31 +1,40 @@
-import { observable, computed } from "mobx"
+import { observable, computed, IObservableArray } from "mobx"
 
 class ODKeyboardManager {
-	@observable pressedKeys: string[] = []
-	@observable playingNotes: ODNote[] = []
+	@observable pressedKeys
+		: string[] 
+		= []
 
-	@observable modifiers = {
-		alt: false,
-		ctrl: false,
-		shift: false
-	}
+	@observable playingNotes
+		: ODNote[] 
+		= []
 
-	modifierKeys = {
-		alt: [
-			"AltLeft",
-			"AltRight",
-		],
-		ctrl: [
-			"ControlLeft",
-			"ControlRight",
-		],
-		shift: [
-			"ShiftLeft",
-			"ShiftRight",
-		]
-	}
+	@observable modifiers 
+		= {
+			alt: false,
+			ctrl: false,
+			shift: false
+		}
 
-	noteKeys: { [key: string]: ODNote} = {
+	modifierKeys 
+		= {
+			alt: [
+				"AltLeft",
+				"AltRight",
+			],
+			ctrl: [
+				"ControlLeft",
+				"ControlRight",
+			],
+			shift: [
+				"ShiftLeft",
+				"ShiftRight",
+			]
+		}
+
+	noteKeys: { 
+		[key: string]: ODNote
+	} = {
 		KeyZ: 			{ octave: 4, sign: "C" },
 		KeyS: 			{ octave: 4, sign: "C#" },
 		KeyX: 			{ octave: 4, sign: "D" },
@@ -91,14 +100,18 @@ class ODKeyboardManager {
 		document.removeEventListener("keyup", this.handleKeyUp)
 	}
 
-	findPlayingNote = (note: ODNote) => {
+	findPlayingNote = (
+		note: ODNote
+	): ODNote | undefined => {
 		return this.playingNotes.find(n => {
 			return n.octave == note.octave
 				&& n.sign == note.sign
 		})
 	}
 
-	handleKeyDown = (event: KeyboardEvent) => {
+	handleKeyDown = (
+		event: KeyboardEvent
+	) => {
 		event.preventDefault()
 		if (event.repeat)
 			return
@@ -127,7 +140,9 @@ class ODKeyboardManager {
 		}
 	}
 
-	handleKeyUp = (event: KeyboardEvent) => {
+	handleKeyUp = (
+		event: KeyboardEvent
+	) => {
 		event.preventDefault()
 
 		var { code } = event
@@ -139,7 +154,7 @@ class ODKeyboardManager {
 		else if (shift.includes(code))
 			this.modifiers.shift = false
 		else {
-			this.pressedKeys.remove(code)
+			(<IObservableArray<string>>this.pressedKeys).remove(code)
 		}
 
 		if (!this.modifierPressed && this.noteKeysList.includes(code)) {
@@ -147,7 +162,7 @@ class ODKeyboardManager {
 			var noteToRemove = this.noteKeys[code]
 			var existingNote = this.findPlayingNote(noteToRemove)
 			if (existingNote)
-				this.playingNotes.remove(existingNote)
+				(<IObservableArray<ODNote>>this.playingNotes).remove(existingNote)
 		}
 	}
 }

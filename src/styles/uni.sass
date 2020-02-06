@@ -1,0 +1,24 @@
+@import "styles/vars"
+
+@keyframes fadeIn
+	0%
+		opacity: 0
+	100%
+		opacity: 1
+
+@keyframes fadeOut
+	0%
+		opacity: 1
+	100%
+		opacity: 0
+
+.u-fade-in, .u-fade-out
+	animation-duration: 600ms
+	animation-timing-function: $transition
+	animation-fill-mode: both
+
+.u-fade-in
+	animation-name: fadeIn
+
+.u-fade-out
+	animation-name: fadeOut
