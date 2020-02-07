@@ -8,6 +8,7 @@ import "styles/uni"
 
 import Background from "components/Images/Background"
 import DebugConsole from "components/Utils/DebugConsole"
+import Button from "components/Buttons/Simple"
 
 export interface AppProps
 extends RouteComponentProps<any> {
@@ -26,10 +27,15 @@ extends React.Component<AppProps, AppState> {
 		return (
 			<>
 				<Background
-					src="/static/images/bg_default_4.jpg"
+					src="/static/images/bg_default_3.jpg"
 					opacity={.5}
 				/>
 				<DebugConsole />
+				<main>
+					<Button icon="plus">
+						Create window
+					</Button>
+				</main>
 			</>
 		)
 	}
