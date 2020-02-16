@@ -1,5 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react"
+import uuid from "uuid/v4"
 
 import "styles/components/buttons/simple"
 
@@ -51,16 +52,33 @@ extends React.Component<SimpleButtonProps, SimpleButtonState> {
 		renderer: defaultRenderer
 	}
 
+	id: string = uuid()
+	runRipple: RunRipple
+
 	get children(): React.ReactNode {
 		var { icon, children } = this.props
 		return <span className="sb-wrapper">
 			{icon &&
 				<i className={`fas fa-${icon}`} />
 			}
-			<span>
-				{children}
-			</span>
+			{this.props.children &&
+				<span>
+					{children}
+				</span>
+			}
 		</span>
+	}
+
+	handleClick = (
+		event: React.MouseEvent<HTMLDivElement>
+	) => {
+		var { clientX, clientY } = event
+		var box = event.currentTarget.getBoundingClientRect()
+		var x = clientX - box.x
+		var y = clientY - box.y
+
+		this.runRipple &&
+			this.runRipple(x, y, Math.max(box.width, box.height))
 	}
 
 	render() {
@@ -68,36 +86,120 @@ extends React.Component<SimpleButtonProps, SimpleButtonState> {
 
 		var props: SimpleButtonRendererProps = {
 			children: this.children,
-			className: `c-simple-button ${color} ${style}`
+			className: `simple-button-wrapper ${color} ${style}`
 		}
 
 		return <>
-			<svg 
-				version="1.1" 
-				xmlns="http://www.w3.org/2000/svg" 
-				className="u-svg-filters"
+			<div 
+				className="c-simple-button"
+				style={{
+					"--button-filter": `url("#${this.id}")`
+				} as React.CSSProperties}
+				onClick={this.handleClick}
 			>
+				<RippleEffect 
+					id={this.id}
+					runRippleHook={ref => this.runRipple = ref}
+				/>
+				{renderer!(props)}
+			</div>
+		</>
+	}
+}
+
+type RunRipple = (
+	x: number,
+	y: number,
+	maxWidth: number
+) => void
+
+interface RippleEffectProps {
+	id: string
+	runRippleHook: (ref: RunRipple) => void
+}
+
+interface RippleEffectState {
+	currentMeasure: number
+}
+
+class RippleEffect
+extends React.Component<RippleEffectProps, RippleEffectState> {
+	state = {
+		currentMeasure: 0
+	}
+
+	measure: number = 1
+	x: number = 0
+	y: number = 0
+
+	frame: number
+
+	componentDidMount() {
+		this.props.runRippleHook(this.runRipple)
+	}
+
+	runRipple: RunRipple = (
+		x,
+		y,
+		maxWidth
+	) => {
+		window.cancelAnimationFrame(this.frame)
+		this.x = x,
+		this.y = y
+		this.measure = maxWidth * 2
+		this.setState({
+			currentMeasure: 0
+		}, this.animate)
+	}
+
+	animate = () => {
+		this.setState({
+			currentMeasure: this.state.currentMeasure + this.measure / 36
+		}, () => {
+			if (this.state.currentMeasure < this.measure)
+				this.frame = window.requestAnimationFrame(this.animate)
+		})
+	}
+
+	render() {
+		var measure = this.state.currentMeasure
+		var x = this.x - measure / 2
+		var y = this.y - measure / 2
+		var scale = 1 - measure / this.measure
+		return <>
+			<span 
+				className="ripple"
+				style={{
+					width: this.measure,
+					height: this.measure,
+					top: this.y,
+					left: this.x,
+					opacity: scale,
+					transform: `translate(-50%, -50%) scale(${1 - scale}) translateZ(0)`
+				}}
+			/>
+			<svg className="u-svg-filters button-ripple-effect">
 				<defs>
-					<filter id="svgRipple">
+					<filter id={this.props.id}>
 						<feImage 
-							xlinkHref="/static/images/ripple.png" 
-							x="-236" 
-							y="-270" 
-							width="600" 
-							height="600" 
+							xlinkHref="/static/images/ripple.png"
+							x={x}
+							y={y}
+							width={measure}
+							height={measure}
 							result="ripple"
 						/>
 						<feDisplacementMap
-							xChannelSelector="R" 
-							yChannelSelector="G" 
-							colorInterpolationFilters="sRGB" 
-							in="SourceGraphic" 
-							in2="ripple" 
-							scale="0" 
+							xChannelSelector="G"
+							yChannelSelector="R"
+							colorInterpolationFilters="sRGB"
+							in="SourceGraphic"
+							in2="ripple"
+							scale={36 * scale}
 							result="dm"
 						/>
 						<feComposite 
-							operator="in" 
+							operator="in"
 							in2="ripple"
 						/>
 						<feComposite 
@@ -106,7 +208,6 @@ extends React.Component<SimpleButtonProps, SimpleButtonState> {
 					</filter>
 				</defs>
 			</svg>
-			{renderer!(props)}
 		</>
 	}
 }

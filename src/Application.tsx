@@ -31,8 +31,40 @@ extends React.Component<AppProps, AppState> {
 					opacity={.5}
 				/>
 				<DebugConsole />
-				<main>
+				<main style={{ padding: 40 }}>
 					<Button icon="plus">
+						Create window
+					</Button>
+					<br/><br/>
+					<Button icon="plus" style="outline">
+						Create window
+					</Button>
+					<br/><br/>
+					<Button icon="plus" color="info">
+						Create window
+					</Button>
+					<br/><br/>
+					<Button icon="plus" color="info" style="outline">
+						Create window
+					</Button>
+					<br/><br/>
+					<Button icon="plus" color="warning">
+						Create window
+					</Button>
+					<br/><br/>
+					<Button icon="plus" color="warning" style="outline">
+						Create window
+					</Button>
+					<br/><br/>
+					<Button icon="plus" color="error">
+						Create window
+					</Button>
+					<br/><br/>
+					<Button icon="plus" color="error" style="outline">
+						Create window
+					</Button>
+					<br/><br/>
+					<Button icon="plus" color="light">
 						Create window
 					</Button>
 				</main>
